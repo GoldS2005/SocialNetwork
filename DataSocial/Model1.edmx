@@ -1,0 +1,533 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище SocialNetworkModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="IDProfile" />
+          </Key>
+          <Property Name="IDProfile" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="35" />
+          <Property Name="FirstName" Type="varchar" MaxLength="35" />
+          <Property Name="NumberPhone" Type="varchar" MaxLength="11" />
+          <Property Name="DateBirthday" Type="date" />
+          <Property Name="PasswordName" Type="varchar" MaxLength="35" />
+        </EntityType>
+        <EntityType Name="BlobPost">
+          <Key>
+            <PropertyRef Name="imageId" />
+          </Key>
+          <Property Name="imageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="imageIdPost" Type="int" />
+          <Property Name="blob" Type="varbinary(max)" />
+          <Property Name="imageType" Type="varchar" MaxLength="25" />
+          <Property Name="imageSize" Type="varchar" MaxLength="25" />
+          <Property Name="imageName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="IDComment" />
+          </Key>
+          <Property Name="IDComment" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDCreatedComment" Type="int" />
+          <Property Name="IDPosts" Type="int" />
+          <Property Name="ContentComment" Type="text" />
+          <Property Name="DatePublicate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Dislikes">
+          <Key>
+            <PropertyRef Name="DislikeId" />
+          </Key>
+          <Property Name="DislikeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PostId" Type="int" />
+          <Property Name="UserId" Type="int" />
+        </EntityType>
+        <EntityType Name="Likes">
+          <Key>
+            <PropertyRef Name="LikeId" />
+          </Key>
+          <Property Name="LikeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PostId" Type="int" />
+          <Property Name="UserId" Type="int" />
+        </EntityType>
+        <EntityType Name="Post">
+          <Key>
+            <PropertyRef Name="IDPost" />
+          </Key>
+          <Property Name="IDPost" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProfileId" Type="int" />
+          <Property Name="ContentPost" Type="text" />
+          <Property Name="DatePublic" Type="datetime" />
+          <Property Name="LikePost" Type="int" Nullable="false" />
+          <Property Name="DisLikePost" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__BlobPost__imageI__5CD6CB2B">
+          <End Role="Post" Type="Self.Post" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BlobPost" Type="Self.BlobPost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="IDPost" />
+            </Principal>
+            <Dependent Role="BlobPost">
+              <PropertyRef Name="imageIdPost" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Comment__DatePub__571DF1D5">
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="IDProfile" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="IDCreatedComment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Comment__IDPosts__5812160E">
+          <End Role="Post" Type="Self.Post" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="IDPost" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="IDPosts" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Dislikes__PostId__00200768">
+          <End Role="Post" Type="Self.Post" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Dislikes" Type="Self.Dislikes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="IDPost" />
+            </Principal>
+            <Dependent Role="Dislikes">
+              <PropertyRef Name="PostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Dislikes__UserId__01142BA1">
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
+          <End Role="Dislikes" Type="Self.Dislikes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="IDProfile" />
+            </Principal>
+            <Dependent Role="Dislikes">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Likes__PostId__7C4F7684">
+          <End Role="Post" Type="Self.Post" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Likes" Type="Self.Likes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="IDPost" />
+            </Principal>
+            <Dependent Role="Likes">
+              <PropertyRef Name="PostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Likes__UserId__7D439ABD">
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
+          <End Role="Likes" Type="Self.Likes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="IDProfile" />
+            </Principal>
+            <Dependent Role="Likes">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Post__DisLikePos__5441852A">
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Post" Type="Self.Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="IDProfile" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="ProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище SocialNetworkModelContainer">
+          <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BlobPost" EntityType="Self.BlobPost" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Dislikes" EntityType="Self.Dislikes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Likes" EntityType="Self.Likes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__BlobPost__imageI__5CD6CB2B" Association="Self.FK__BlobPost__imageI__5CD6CB2B">
+            <End Role="Post" EntitySet="Post" />
+            <End Role="BlobPost" EntitySet="BlobPost" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Comment__DatePub__571DF1D5" Association="Self.FK__Comment__DatePub__571DF1D5">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Comment__IDPosts__5812160E" Association="Self.FK__Comment__IDPosts__5812160E">
+            <End Role="Post" EntitySet="Post" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Dislikes__PostId__00200768" Association="Self.FK__Dislikes__PostId__00200768">
+            <End Role="Post" EntitySet="Post" />
+            <End Role="Dislikes" EntitySet="Dislikes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Dislikes__UserId__01142BA1" Association="Self.FK__Dislikes__UserId__01142BA1">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Dislikes" EntitySet="Dislikes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Likes__PostId__7C4F7684" Association="Self.FK__Likes__PostId__7C4F7684">
+            <End Role="Post" EntitySet="Post" />
+            <End Role="Likes" EntitySet="Likes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Likes__UserId__7D439ABD" Association="Self.FK__Likes__UserId__7D439ABD">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Likes" EntitySet="Likes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Post__DisLikePos__5441852A" Association="Self.FK__Post__DisLikePos__5441852A">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Post" EntitySet="Post" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SocialNetworkModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="IDProfile" />
+          </Key>
+          <Property Name="IDProfile" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LastName" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="FirstName" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="NumberPhone" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="DateBirthday" Type="DateTime" Precision="0" />
+          <Property Name="PasswordName" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Comments" Relationship="Self.FK__Comment__DatePub__571DF1D5" FromRole="Account" ToRole="Comment" />
+          <NavigationProperty Name="Dislikes" Relationship="Self.FK__Dislikes__UserId__01142BA1" FromRole="Account" ToRole="Dislikes" />
+          <NavigationProperty Name="Likes" Relationship="Self.FK__Likes__UserId__7D439ABD" FromRole="Account" ToRole="Likes" />
+          <NavigationProperty Name="Posts" Relationship="Self.FK__Post__DisLikePos__5441852A" FromRole="Account" ToRole="Post" />
+        </EntityType>
+        <EntityType Name="BlobPost">
+          <Key>
+            <PropertyRef Name="imageId" />
+          </Key>
+          <Property Name="imageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="imageIdPost" Type="Int32" />
+          <Property Name="blob" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="imageType" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="imageSize" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="imageName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Post" Relationship="Self.FK__BlobPost__imageI__5CD6CB2B" FromRole="BlobPost" ToRole="Post" />
+        </EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="IDComment" />
+          </Key>
+          <Property Name="IDComment" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDCreatedComment" Type="Int32" />
+          <Property Name="IDPosts" Type="Int32" />
+          <Property Name="ContentComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DatePublicate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Account" Relationship="Self.FK__Comment__DatePub__571DF1D5" FromRole="Comment" ToRole="Account" />
+          <NavigationProperty Name="Post" Relationship="Self.FK__Comment__IDPosts__5812160E" FromRole="Comment" ToRole="Post" />
+        </EntityType>
+        <EntityType Name="Dislike">
+          <Key>
+            <PropertyRef Name="DislikeId" />
+          </Key>
+          <Property Name="DislikeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PostId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
+          <NavigationProperty Name="Account" Relationship="Self.FK__Dislikes__UserId__01142BA1" FromRole="Dislikes" ToRole="Account" />
+          <NavigationProperty Name="Post" Relationship="Self.FK__Dislikes__PostId__00200768" FromRole="Dislikes" ToRole="Post" />
+        </EntityType>
+        <EntityType Name="Like">
+          <Key>
+            <PropertyRef Name="LikeId" />
+          </Key>
+          <Property Name="LikeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PostId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
+          <NavigationProperty Name="Account" Relationship="Self.FK__Likes__UserId__7D439ABD" FromRole="Likes" ToRole="Account" />
+          <NavigationProperty Name="Post" Relationship="Self.FK__Likes__PostId__7C4F7684" FromRole="Likes" ToRole="Post" />
+        </EntityType>
+        <EntityType Name="Post">
+          <Key>
+            <PropertyRef Name="IDPost" />
+          </Key>
+          <Property Name="IDPost" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProfileId" Type="Int32" />
+          <Property Name="ContentPost" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DatePublic" Type="DateTime" Precision="3" />
+          <Property Name="LikePost" Type="Int32" Nullable="false" />
+          <Property Name="DisLikePost" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Account" Relationship="Self.FK__Post__DisLikePos__5441852A" FromRole="Post" ToRole="Account" />
+          <NavigationProperty Name="BlobPosts" Relationship="Self.FK__BlobPost__imageI__5CD6CB2B" FromRole="Post" ToRole="BlobPost" />
+          <NavigationProperty Name="Comments" Relationship="Self.FK__Comment__IDPosts__5812160E" FromRole="Post" ToRole="Comment" />
+          <NavigationProperty Name="Dislikes" Relationship="Self.FK__Dislikes__PostId__00200768" FromRole="Post" ToRole="Dislikes" />
+          <NavigationProperty Name="Likes" Relationship="Self.FK__Likes__PostId__7C4F7684" FromRole="Post" ToRole="Likes" />
+        </EntityType>
+        <Association Name="FK__Comment__DatePub__571DF1D5">
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="IDProfile" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="IDCreatedComment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Dislikes__UserId__01142BA1">
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
+          <End Role="Dislikes" Type="Self.Dislike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="IDProfile" />
+            </Principal>
+            <Dependent Role="Dislikes">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Likes__UserId__7D439ABD">
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
+          <End Role="Likes" Type="Self.Like" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="IDProfile" />
+            </Principal>
+            <Dependent Role="Likes">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Post__DisLikePos__5441852A">
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Post" Type="Self.Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="IDProfile" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="ProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__BlobPost__imageI__5CD6CB2B">
+          <End Role="Post" Type="Self.Post" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BlobPost" Type="Self.BlobPost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="IDPost" />
+            </Principal>
+            <Dependent Role="BlobPost">
+              <PropertyRef Name="imageIdPost" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Comment__IDPosts__5812160E">
+          <End Role="Post" Type="Self.Post" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="IDPost" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="IDPosts" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Dislikes__PostId__00200768">
+          <End Role="Post" Type="Self.Post" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Dislikes" Type="Self.Dislike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="IDPost" />
+            </Principal>
+            <Dependent Role="Dislikes">
+              <PropertyRef Name="PostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Likes__PostId__7C4F7684">
+          <End Role="Post" Type="Self.Post" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Likes" Type="Self.Like" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="IDPost" />
+            </Principal>
+            <Dependent Role="Likes">
+              <PropertyRef Name="PostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SocialNetworkEntities5" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Accounts" EntityType="Self.Account" />
+          <EntitySet Name="BlobPosts" EntityType="Self.BlobPost" />
+          <EntitySet Name="Comments" EntityType="Self.Comment" />
+          <EntitySet Name="Dislikes" EntityType="Self.Dislike" />
+          <EntitySet Name="Likes" EntityType="Self.Like" />
+          <EntitySet Name="Posts" EntityType="Self.Post" />
+          <AssociationSet Name="FK__Comment__DatePub__571DF1D5" Association="Self.FK__Comment__DatePub__571DF1D5">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Dislikes__UserId__01142BA1" Association="Self.FK__Dislikes__UserId__01142BA1">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="Dislikes" EntitySet="Dislikes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Likes__UserId__7D439ABD" Association="Self.FK__Likes__UserId__7D439ABD">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="Likes" EntitySet="Likes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Post__DisLikePos__5441852A" Association="Self.FK__Post__DisLikePos__5441852A">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="Post" EntitySet="Posts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__BlobPost__imageI__5CD6CB2B" Association="Self.FK__BlobPost__imageI__5CD6CB2B">
+            <End Role="Post" EntitySet="Posts" />
+            <End Role="BlobPost" EntitySet="BlobPosts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Comment__IDPosts__5812160E" Association="Self.FK__Comment__IDPosts__5812160E">
+            <End Role="Post" EntitySet="Posts" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Dislikes__PostId__00200768" Association="Self.FK__Dislikes__PostId__00200768">
+            <End Role="Post" EntitySet="Posts" />
+            <End Role="Dislikes" EntitySet="Dislikes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Likes__PostId__7C4F7684" Association="Self.FK__Likes__PostId__7C4F7684">
+            <End Role="Post" EntitySet="Posts" />
+            <End Role="Likes" EntitySet="Likes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище SocialNetworkModelContainer" CdmEntityContainer="SocialNetworkEntities5">
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="SocialNetworkModel.Account">
+              <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="IDProfile" ColumnName="IDProfile" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="NumberPhone" ColumnName="NumberPhone" />
+                <ScalarProperty Name="DateBirthday" ColumnName="DateBirthday" />
+                <ScalarProperty Name="PasswordName" ColumnName="PasswordName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BlobPosts">
+            <EntityTypeMapping TypeName="SocialNetworkModel.BlobPost">
+              <MappingFragment StoreEntitySet="BlobPost">
+                <ScalarProperty Name="imageId" ColumnName="imageId" />
+                <ScalarProperty Name="imageIdPost" ColumnName="imageIdPost" />
+                <ScalarProperty Name="blob" ColumnName="blob" />
+                <ScalarProperty Name="imageType" ColumnName="imageType" />
+                <ScalarProperty Name="imageSize" ColumnName="imageSize" />
+                <ScalarProperty Name="imageName" ColumnName="imageName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Comments">
+            <EntityTypeMapping TypeName="SocialNetworkModel.Comment">
+              <MappingFragment StoreEntitySet="Comment">
+                <ScalarProperty Name="IDComment" ColumnName="IDComment" />
+                <ScalarProperty Name="IDCreatedComment" ColumnName="IDCreatedComment" />
+                <ScalarProperty Name="IDPosts" ColumnName="IDPosts" />
+                <ScalarProperty Name="ContentComment" ColumnName="ContentComment" />
+                <ScalarProperty Name="DatePublicate" ColumnName="DatePublicate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Dislikes">
+            <EntityTypeMapping TypeName="SocialNetworkModel.Dislike">
+              <MappingFragment StoreEntitySet="Dislikes">
+                <ScalarProperty Name="DislikeId" ColumnName="DislikeId" />
+                <ScalarProperty Name="PostId" ColumnName="PostId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Likes">
+            <EntityTypeMapping TypeName="SocialNetworkModel.Like">
+              <MappingFragment StoreEntitySet="Likes">
+                <ScalarProperty Name="LikeId" ColumnName="LikeId" />
+                <ScalarProperty Name="PostId" ColumnName="PostId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Posts">
+            <EntityTypeMapping TypeName="SocialNetworkModel.Post">
+              <MappingFragment StoreEntitySet="Post">
+                <ScalarProperty Name="IDPost" ColumnName="IDPost" />
+                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+                <ScalarProperty Name="ContentPost" ColumnName="ContentPost" />
+                <ScalarProperty Name="DatePublic" ColumnName="DatePublic" />
+                <ScalarProperty Name="LikePost" ColumnName="LikePost" />
+                <ScalarProperty Name="DisLikePost" ColumnName="DisLikePost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

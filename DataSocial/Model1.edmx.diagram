@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3bebb6b224d54442a8a6c253f424d4c6" Name="Diagram1">
+        <EntityTypeShape EntityType="SocialNetworkModel.Account" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SocialNetworkModel.BlobPost" Width="1.5" PointX="5.25" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SocialNetworkModel.Comment" Width="1.5" PointX="5.25" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SocialNetworkModel.Dislike" Width="1.5" PointX="5.25" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SocialNetworkModel.Like" Width="1.5" PointX="8.25" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SocialNetworkModel.Post" Width="1.5" PointX="3" PointY="14.25" IsExpanded="true" />
+        <AssociationConnector Association="SocialNetworkModel.FK__Comment__DatePub__571DF1D5" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialNetworkModel.FK__Dislikes__UserId__01142BA1" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialNetworkModel.FK__Likes__UserId__7D439ABD" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialNetworkModel.FK__Post__DisLikePos__5441852A" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialNetworkModel.FK__BlobPost__imageI__5CD6CB2B" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialNetworkModel.FK__Comment__IDPosts__5812160E" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialNetworkModel.FK__Dislikes__PostId__00200768" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialNetworkModel.FK__Likes__PostId__7C4F7684" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

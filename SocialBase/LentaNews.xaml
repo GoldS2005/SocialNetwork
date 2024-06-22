@@ -1,0 +1,102 @@
+﻿<Page x:Class="SocialBase.LentaNews"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SocialBase"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="LentaNews">
+
+    <Grid  Background="#00e9d2">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto" MinHeight="40"/>
+            <RowDefinition Height="Auto" MinHeight="40"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox FontFamily="Cascadia Mono SemiLight" Grid.Column="0" Name="tbSearch" TextChanged="TextBox_TextChanged"></TextBox>
+            <ComboBox FontFamily="Cascadia Mono SemiLight" Grid.Column="1" ItemsSource="{Binding SortItems}" DisplayMemberPath="Text" SelectedItem="{Binding SelectedSortItem}" SelectionChanged="ComboBox_SelectionChanged"></ComboBox>
+        </Grid>
+
+
+        <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="#ccfffa" Name="PostListView" Grid.Column="0" Grid.Row="1" BorderThickness="0" ItemsSource="{Binding Posts}" Margin="0,0,0,5">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock TextWrapping="Wrap">
+                        
+                        <Hyperlink></Hyperlink>
+                        <Hyperlink></Hyperlink>
+                       <Run Text= "{Binding Account.LastName}" FontWeight="Black" ></Run>
+                       <Run Text= "{Binding Account.FirstName}" FontWeight="Black"></Run>
+                       <LineBreak></LineBreak>
+                        
+                        <Hyperlink></Hyperlink>
+                        <Hyperlink></Hyperlink>
+                       <Run Text= "{Binding DatePublic}"></Run>
+                       <LineBreak></LineBreak>
+                      
+                       
+                       
+                       <Run Text= "{Binding ContentPost}" FontSize="16"></Run>
+                        <LineBreak></LineBreak>
+                        <ListView  ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="#ccfffa" Name="ImagesListView" Grid.Column="0" Grid.Row="0" BorderThickness="0" ItemsSource="{Binding BlobPosts}">
+                            <ListView.ItemTemplate>
+                               <DataTemplate>
+                       
+                                     <Image x:Name="image" Source ="{Binding blob}"  Width="300" Height="300"></Image>
+                   
+                                     </DataTemplate>
+                                   </ListView.ItemTemplate>
+                        </ListView>
+                        
+                        <Label FontWeight="Black" Padding="0 0">👍</Label>
+                       <Run Text= "{ Binding LikePost }"></Run>
+                        <Label FontWeight="Black" Padding="0 0">👎</Label>
+                       <Run Text= "{Binding DisLikePost }"></Run>
+
+
+
+                    </TextBlock>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2" Margin="14,0,14,4" Width="772">
+            <Button FontFamily="Cascadia Mono SemiLight" Foreground="#005337" BorderBrush="#ccfffa" Background="#8bfff3" Name="likeButton" Click="likeButton_Click" Height="25" Width="100" Content="👍"/>
+            <Button FontFamily="Cascadia Mono SemiLight" Foreground="#005337" BorderBrush="#ccfffa" Background="#8bfff3" Name="dislikeButton" Click="dislikeButton_Click" Height="25" Width="100" Content="👎"/>
+
+
+            <Label></Label>
+            <Button FontFamily="Cascadia Mono SemiLight" Foreground="#005337" BorderBrush="#ccfffa" Background="#8bfff3" Name="postButton" Click="postButton_Click" Grid.Column="1" Height="25" Width="180">Добавить запись</Button>
+
+            <Label></Label>
+            <Button FontFamily="Cascadia Mono SemiLight" Foreground="#005337" BorderBrush="#ccfffa" Background="#8bfff3" Name="commentButton" Click="commentButton_Click" Grid.Column="1" Height="25" Width="180">Комментарии</Button>
+
+            <Label></Label>
+            <Button FontFamily="Cascadia Mono SemiLight" Foreground="#005337" BorderBrush="#ccfffa" Background="#8bfff3" Name="imagesButton" Click="imagesButton_Click" Grid.Column="1" Height="25" Width="180">Изображения</Button>
+
+
+
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="3" Width="680" Margin="60,0">
+            <Label></Label>
+            <Button FontFamily="Cascadia Mono SemiLight" Foreground="#005337" BorderBrush="#ccfffa" Background="#8bfff3" Name="buttonback" Click="buttonback_Click" Height="25" Width="200" Content="Назад"/>
+
+            <Label Height="11"></Label>
+            <Button FontFamily="Cascadia Mono SemiLight" Foreground="#005337" BorderBrush="#ccfffa" Background="#8bfff3" Name="buttondelete" Click="buttondelete_Click" Height="25" Width="210" Content="Удалить"/>
+
+            <Label Height="11"></Label>
+            <Button FontFamily="Cascadia Mono SemiLight" Foreground="#005337" BorderBrush="#ccfffa" Background="#8bfff3" Name="buttonredac" Click="buttonredac_Click" Height="25" Width="210" Content="Редактирование"/>
+        </StackPanel>
+    </Grid>
+</Page>
